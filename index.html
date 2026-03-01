@@ -20,136 +20,88 @@
     <div id="paywall" class="hidden fixed inset-0 bg-black/98 z-[100] flex flex-col items-center justify-center p-6 text-center">
         <i class="fas fa-crown text-6xl text-yellow-500 mb-6"></i>
         <h2 class="text-3xl font-black mb-2 text-white italic">VIBRAS POSITIVAS</h2>
-        <p class="text-gray-400 mb-8 max-w-xs">Tu periodo de entrenamiento personalizado de 15 días ha finalizado. ¡Únete a la comunidad élite para continuar!</p>
+        <p class="text-gray-400 mb-8 max-w-xs">Tu periodo de entrenamiento personalizado de 15 días ha finalizado. ¡Renueva para seguir con toda!</p>
         <button class="bg-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase tracking-widest shadow-[0_0_20px_rgba(234,179,8,0.4)]">Suscribirse Ahora</button>
     </div>
 
     <main id="app-content" class="max-w-2xl mx-auto p-4 md:p-6">
         <header class="text-center mb-6 pt-4">
-            <h1 class="text-3xl font-black text-emerald-500 italic tracking-tighter logo-anim">VIBRAS POSITIVAS</h1>
+            <h1 class="text-3xl font-black text-emerald-500 italic tracking-tighter logo-anim uppercase">VIBRAS POSITIVAS</h1>
             <p class="text-[10px] text-white font-bold tracking-[0.2em] uppercase opacity-80">Entrenador Deportivo Personalizado</p>
-            <div id="trial-counter" class="text-[8px] text-emerald-500/60 mt-2 font-bold uppercase"></div>
+            <div id="status-hoy" class="text-[9px] bg-emerald-500/10 text-emerald-400 py-1 px-4 rounded-full inline-block mt-3 font-black border border-emerald-500/20 uppercase"></div>
         </header>
 
         <section class="bg-gray-900 p-5 rounded-[2.5rem] border border-gray-800 mb-6 shadow-2xl">
             <div class="grid grid-cols-2 gap-3 mb-5">
                 <div class="relative">
-                    <span class="absolute top-2 left-3 text-[8px] font-bold text-emerald-500 uppercase">Tu Peso</span>
+                    <span class="absolute top-2 left-3 text-[8px] font-bold text-emerald-500 uppercase italic">Tu Peso</span>
                     <input type="number" id="peso" placeholder="00 kg" oninput="recalcular()" class="w-full bg-black border border-gray-700 rounded-2xl p-4 pt-6 outline-none text-xl font-black text-center text-white focus:border-emerald-500 transition">
                 </div>
                 <div class="relative">
-                    <span class="absolute top-2 left-3 text-[8px] font-bold text-emerald-500 uppercase">Objetivo</span>
-                    <select id="objetivo" onchange="recalcular()" class="w-full bg-black border border-gray-700 rounded-2xl p-4 pt-6 outline-none text-xs font-black text-white appearance-none">
-                        <option value="perder">QUEMAR GRASA</option>
-                        <option value="mantener">MANTENERSE</option>
-                        <option value="ganar">MASA MUSCULAR</option>
+                    <span class="absolute top-2 left-3 text-[8px] font-bold text-emerald-500 uppercase italic">Tu Meta</span>
+                    <select id="objetivo" onchange="recalcular()" class="w-full bg-black border border-gray-700 rounded-2xl p-4 pt-6 outline-none text-xs font-black text-white appearance-none uppercase">
+                        <option value="perder">Quemar Grasa</option>
+                        <option value="mantener" selected>Mantenerse</option>
+                        <option value="ganar">Subir Músculo</option>
                     </select>
                 </div>
             </div>
             
-            <div class="grid grid-cols-4 gap-2 text-center">
-                <div class="bg-black/50 p-2 rounded-xl border border-gray-800"><p class="text-[7px] text-gray-500 font-bold uppercase">Proteína</p><p id="p-val" class="font-bold text-sm text-white">0g</p></div>
-                <div class="bg-black/50 p-2 rounded-xl border border-gray-800"><p class="text-[7px] text-gray-500 font-bold uppercase">Carbos</p><p id="c-val" class="font-bold text-sm text-yellow-500">0g</p></div>
-                <div class="bg-black/50 p-2 rounded-xl border border-gray-800"><p class="text-[7px] text-gray-500 font-bold uppercase">Grasas</p><p id="g-val" class="font-black text-sm text-white">0g</p></div>
-                <div class="bg-emerald-500/10 p-2 rounded-xl border border-emerald-500/20"><p class="text-[7px] text-emerald-500 font-bold uppercase">Calorías</p><p id="kcal-val" class="font-black text-emerald-500 text-sm">0</p></div>
+            <div class="grid grid-cols-4 gap-2 text-center mb-4">
+                <div class="bg-black/50 p-2 rounded-xl border border-gray-800"><p class="text-[7px] text-gray-500 font-bold uppercase">Prot</p><p id="p-val" class="font-bold text-sm text-white">0g</p></div>
+                <div class="bg-black/50 p-2 rounded-xl border border-gray-800"><p class="text-[7px] text-gray-500 font-bold uppercase">Carb</p><p id="c-val" class="font-bold text-sm text-yellow-500">0g</p></div>
+                <div class="bg-black/50 p-2 rounded-xl border border-gray-800"><p class="text-[7px] text-gray-500 font-bold uppercase">Gras</p><p id="g-val" class="font-black text-sm text-white">0g</p></div>
+                <div class="bg-emerald-500/10 p-2 rounded-xl border border-emerald-500/20"><p class="text-[7px] text-emerald-500 font-bold uppercase">Kcal</p><p id="kcal-val" class="font-black text-emerald-500 text-sm">0</p></div>
             </div>
+
+            <button onclick="compartirWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white p-3 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 transition shadow-lg">
+                <i class="fab fa-whatsapp text-lg"></i> Enviar Rutina de Hoy
+            </button>
         </section>
 
         <div class="flex overflow-x-auto space-x-2 mb-6 pb-2 no-scrollbar">
-            <button onclick="tab('tren_superior', this)" class="tab-btn active-tab">💥 Superior</button>
+            <button id="btn-hoy" onclick="tab('auto', this)" class="tab-btn active-tab">⭐ Hoy</button>
+            <button onclick="tab('tren_superior', this)" class="tab-btn">💥 Superior</button>
             <button onclick="tab('tren_inferior', this)" class="tab-btn">🦵 Inferior</button>
+            <button onclick="tab('funcional', this)" class="tab-btn">🔥 HIIT</button>
             <button onclick="tab('maquinas', this)" class="tab-btn">⚙️ Máquinas</button>
-            <button onclick="tab('funcional', this)" class="tab-btn">🔥 HIIT/Cardio</button>
-            <button onclick="tab('bienestar', this)" class="tab-btn">🧘 Relax</button>
         </div>
 
-        <div id="content-list" class="space-y-3 pb-10">
-            </div>
+        <div id="content-list" class="space-y-3 pb-10"></div>
     </main>
 
     <script>
         const gimnasioDB = {
-            tren_superior: { color: "border-blue-500", items: [
-                { n: "Press de Banca Plano", t: "4x10", d: "Barra Olímpica - Pecho" },
-                { n: "Dominadas Lastradas", t: "3xMAX", d: "Barra Fija - Espalda" },
-                { n: "Press Militar", t: "4x12", d: "Mancuernas - Hombros" },
-                { n: "Curl Martillo", t: "3x15", d: "Mancuernas - Bíceps" },
-                { n: "Copa Tríceps", t: "3x12", d: "Mancuerna tras nuca" },
-                { n: "Flexiones Diamante", t: "3x20", d: "Peso Corporal - Tríceps" }
+            tren_superior: { n: "Superior", color: "border-blue-500", items: [
+                { n: "Press de Banca", t: "4x10", d: "Pecho - Barra" },
+                { n: "Dominadas", t: "3xMAX", d: "Espalda - Barra fija" },
+                { n: "Press Militar", t: "4x12", d: "Hombros - Mancuernas" },
+                { n: "Flexiones Diamante", t: "3x20", d: "Tríceps - Suelo" },
+                { n: "Curl Martillo", t: "3x15", d: "Bíceps - Mancuernas" }
             ]},
-            tren_inferior: { color: "border-emerald-500", items: [
-                { n: "Sentadilla Libre", t: "4x12", d: "Rack de Potencia - Piernas" },
-                { n: "Peso Muerto", t: "3x8", d: "Barra - Isquios/Lumbar" },
-                { n: "Zancadas Caminando", t: "3x20m", d: "Mancuernas - Glúteos" },
-                { n: "Hip Thrust", t: "4x10", d: "Barra - Glúteo Mayor" },
-                { n: "Elevación de Gemelos", t: "4x25", d: "En escalón o máquina" }
+            tren_inferior: { n: "Inferior", color: "border-emerald-500", items: [
+                { n: "Sentadilla Libre", t: "4x12", d: "Cuádriceps - Rack" },
+                { n: "Peso Muerto", t: "3x8", d: "Isquios - Barra" },
+                { n: "Zancadas", t: "3x20m", d: "Glúteos - Mancuernas" },
+                { n: "Hip Thrust", t: "4x10", d: "Glúteos - Barra" },
+                { n: "Elevación Gemelos", t: "4x25", d: "Pantorrillas" }
             ]},
-            maquinas: { color: "border-yellow-600", items: [
-                { n: "Prensa de Piernas 45°", t: "4x15", d: "Máquina de Discos" },
-                { n: "Polea Alta al Pecho", t: "4x12", d: "Máquina de Cables" },
-                { n: "Extensiones Cuádriceps", t: "3x15", d: "Máquina de palanca" },
-                { n: "Remo en Gironda", t: "4x10", d: "Polea Baja - Espalda" },
-                { n: "Pec Deck (Contractora)", t: "3x15", d: "Aislamiento de Pecho" }
+            funcional: { n: "HIIT", color: "border-orange-600", items: [
+                { n: "Jumping Jacks", t: "3x1 min", d: "Cardio Total" },
+                { n: "Mountain Climbers", t: "4x45s", d: "Corredores - Core" },
+                { n: "Burpees", t: "3x15", d: "Potencia Explosiva" },
+                { n: "Plancha Abdominal", t: "3x1 min", d: "Core Isométrico" }
             ]},
-            funcional: { color: "border-orange-600", items: [
-                { n: "Burpees Explosivos", t: "3x15", d: "Potencia Metabólica" },
-                { n: "Mountain Climbers", t: "4x45s", d: "Core y Resistencia" },
-                { n: "Jumping Jacks", t: "3x1m", d: "Calentamiento/Cardio" },
-                { n: "Plancha Abdominal", t: "3x60s", d: "Estabilidad de Core" },
-                { n: "Sprints de Corredor", t: "5x30s", d: "Máxima Intensidad" }
-            ]},
-            bienestar: { color: "border-purple-500", items: [
-                { n: "Saludo al Sol (Yoga)", t: "10 min", d: "Flexibilidad Dinámica" },
-                { n: "Estiramiento de Psoas", t: "2 min", d: "Postura y Cadera" },
-                { n: "Respiración 4-7-8", t: "5 min", d: "Relajación del SNC" },
-                { n: "Savasana Final", t: "5 min", d: "Recuperación Mental" }
+            maquinas: { n: "Máquinas", color: "border-yellow-600", items: [
+                { n: "Prensa 45°", t: "4x15", d: "Piernas - Máquina" },
+                { n: "Polea al Pecho", t: "4x12", d: "Espalda - Cables" },
+                { n: "Extensiones", t: "3x15", d: "Cuádriceps - Palanca" },
+                { n: "Remo Gironda", t: "4x10", d: "Espalda - Polea Baja" }
             ]}
         };
 
+        const diasProgramados = ['funcional', 'tren_superior', 'tren_inferior', 'funcional', 'tren_superior', 'tren_inferior', 'maquinas'];
+        let currentKey = 'tren_superior';
+
         function recalcular() {
-            const peso = parseFloat(document.getElementById('peso').value) || 0;
-            const obj = document.getElementById('objetivo').value;
-            let mCarb = obj === 'ganar' ? 5 : (obj === 'perder' ? 2.2 : 3.5);
-            let p = peso * 2.2, c = peso * mCarb, g = peso * 0.9;
-            document.getElementById('p-val').innerText = Math.round(p) + "g";
-            document.getElementById('c-val').innerText = Math.round(c) + "g";
-            document.getElementById('g-val').innerText = Math.round(g) + "g";
-            document.getElementById('kcal-val').innerText = Math.round((p*4)+(c*4)+(g*9));
-        }
-
-        function tab(key, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab'));
-            btn.classList.add('active-tab');
-            const section = gimnasioDB[key];
-            const list = document.getElementById('content-list');
-            list.innerHTML = "";
-            section.items.forEach(item => {
-                list.innerHTML += `
-                    <div class="seccion-card ${section.color} animate-fade-in">
-                        <div class="flex-1">
-                            <h4 class="font-black text-white text-[11px] uppercase tracking-tighter">${item.n}</h4>
-                            <p class="text-[9px] text-gray-500 font-bold">${item.d}</p>
-                        </div>
-                        <div class="text-emerald-500 font-black text-[10px] bg-black px-3 py-2 rounded-xl border border-gray-800 ml-2">
-                            ${item.t}
-                        </div>
-                    </div>`;
-            });
-        }
-
-        window.onload = () => {
-            let start = localStorage.getItem('vibras_positivas_date');
-            if (!start) { start = new Date().getTime(); localStorage.setItem('vibras_positivas_date', start); }
-            let daysPast = Math.floor((new Date().getTime() - start) / 86400000);
-            let left = 15 - daysPast;
-            if (left <= 0) {
-                document.getElementById('paywall').classList.remove('hidden');
-                document.getElementById('app-content').classList.add('blur-xl');
-            } else {
-                document.getElementById('trial-counter').innerText = `Días restantes de acceso élite: ${left}`;
-                tab('tren_superior', document.querySelector('.tab-btn'));
-            }
-        };
-    </script>
-</body>
-</html>
+            const peso = parseFloat(document.getElementById('peso').value) || 70;
