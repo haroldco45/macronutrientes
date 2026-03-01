@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriSport Pro | Entrenador Ilimitado</title>
+    <title>NutriSport Pro | Entrenamiento Total</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -11,100 +11,120 @@
 
     <main class="max-w-2xl mx-auto p-6">
         <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-emerald-500 italic">NUTRI<span class="text-white">SPORT</span></h1>
-            <p class="text-gray-400 mt-2">Nutrición & Rutinas Inteligentes</p>
+            <h1 class="text-3xl font-bold text-emerald-500 italic uppercase tracking-tighter">Nutri<span class="text-white">Sport</span> Pro</h1>
+            <p class="text-gray-400 text-sm">Pesas • Barras • Bandas • Nutrición</p>
         </header>
 
-        <section class="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-6">
-            <div class="grid grid-cols-2 gap-4">
-                <input type="number" id="peso" placeholder="Peso (kg)" class="bg-gray-900 border border-gray-600 rounded-lg p-3 outline-none">
-                <select id="objetivo" class="bg-gray-900 border border-gray-600 rounded-lg p-3 outline-none">
-                    <option value="perder">Quemar Grasa</option>
-                    <option value="mantener">Mantenerse</option>
-                    <option value="ganar">Ganar Músculo</option>
+        <section class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-2xl mb-6">
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <input type="number" id="peso" placeholder="Peso (kg)" class="bg-gray-900 border border-gray-700 rounded-2xl p-4 outline-none focus:ring-2 focus:ring-emerald-500 transition">
+                <select id="objetivo" class="bg-gray-900 border border-gray-700 rounded-2xl p-4 outline-none">
+                    <option value="perder">Definición</option>
+                    <option value="mantener">Mantenimiento</option>
+                    <option value="ganar">Volumen (Músculo)</option>
                 </select>
             </div>
-            <div class="grid grid-cols-3 gap-3 mt-6">
-                <button onclick="generarTodo(1)" class="level-btn p-3 bg-gray-900 border-2 border-transparent rounded-xl hover:border-blue-500 transition">
-                    <i class="fas fa-leaf text-blue-400"></i><br><span class="text-[10px]">BAJO</span>
+
+            <p class="text-center text-xs font-bold text-gray-500 uppercase mb-4">Selecciona Intensidad de Hoy</p>
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="generarRutina(1)" class="lvl-btn p-4 bg-gray-900 rounded-2xl border-2 border-transparent hover:border-blue-500 transition">
+                    <i class="fas fa-bolt text-blue-400 mb-1"></i><br><span class="text-[10px] font-black">SUAVE</span>
                 </button>
-                <button onclick="generarTodo(2)" class="level-btn p-3 bg-gray-900 border-2 border-transparent rounded-xl hover:border-yellow-500 transition">
-                    <i class="fas fa-bolt text-yellow-400"></i><br><span class="text-[10px]">MEDIO</span>
+                <button onclick="generarRutina(2)" class="lvl-btn p-4 bg-gray-900 rounded-2xl border-2 border-transparent hover:border-yellow-500 transition">
+                    <i class="fas fa-fire text-yellow-500 mb-1"></i><br><span class="text-[10px] font-black">MEDIO</span>
                 </button>
-                <button onclick="generarTodo(3)" class="level-btn p-3 bg-gray-900 border-2 border-transparent rounded-xl hover:border-red-500 transition">
-                    <i class="fas fa-fire text-red-500"></i><br><span class="text-[10px]">ALTO</span>
+                <button onclick="generarRutina(3)" class="lvl-btn p-4 bg-gray-900 rounded-2xl border-2 border-transparent hover:border-red-600 transition">
+                    <i class="fas fa-dumbbell text-red-600 mb-1"></i><br><span class="text-[10px] font-black">BESTIA</span>
                 </button>
             </div>
         </section>
 
-        <div id="seccion-macros" class="hidden grid grid-cols-3 gap-4 mb-6 text-center">
-            <div class="bg-gray-800 p-3 rounded-xl border-b-2 border-blue-500"><p class="text-xs text-gray-400">Prot</p><p id="res-prot" class="font-bold">--</p></div>
-            <div class="bg-gray-800 p-3 rounded-xl border-b-2 border-yellow-500"><p class="text-xs text-gray-400">Carb</p><p id="res-carb" class="font-bold">--</p></div>
-            <div class="bg-gray-800 p-3 rounded-xl border-b-2 border-red-500"><p class="text-xs text-gray-400">Gras</p><p id="res-gras" class="font-bold">--</p></div>
+        <div id="macros-ui" class="hidden mb-8 animate-fade-in">
+            <div class="flex justify-between items-center bg-emerald-900/20 p-4 rounded-2xl border border-emerald-500/30">
+                <div><p class="text-[10px] text-emerald-500 font-bold">PROT</p><p id="p-val" class="text-xl font-black">--</p></div>
+                <div><p class="text-[10px] text-emerald-500 font-bold">CARB</p><p id="c-val" class="text-xl font-black">--</p></div>
+                <div><p class="text-[10px] text-emerald-500 font-bold">GRAS</p><p id="g-val" class="text-xl font-black">--</p></div>
+                <div class="text-right border-l border-emerald-500/30 pl-4">
+                    <p class="text-[10px] text-emerald-500 font-bold">CALORÍAS</p>
+                    <p id="kcal-val" class="text-xl font-black text-emerald-400">--</p>
+                </div>
+            </div>
         </div>
 
-        <section id="seccion-ejercicios" class="hidden">
-            <h3 class="text-lg font-bold mb-4 flex justify-between items-center">
-                <span>Rutina Recomendada</span>
-                <span id="tiempo-total" class="text-sm bg-emerald-600 px-2 py-1 rounded text-white italic">0 min</span>
-            </h3>
-            <div id="lista-ejercicios" class="space-y-3">
+        <div id="rutina-ui" class="hidden space-y-4">
+            <h3 class="text-lg font-black uppercase tracking-widest text-gray-500">Plan de Trabajo</h3>
+            <div id="contenedor-ejercicios" class="space-y-3">
                 </div>
-        </section>
+        </div>
     </main>
 
     <script>
-        const baseEjercicios = {
-            1: [ // Nivel Bajo
-                { nombre: "Caminata Activa", tiempo: "30 min", freq: "Diario", obs: "Ritmo constante" },
-                { nombre: "Movilidad Articular", tiempo: "10 min", freq: "3 veces/sem", obs: "Foco en cadera y hombros" },
-                { nombre: "Estiramientos Globales", tiempo: "15 min", freq: "Diario", obs: "Al final del día" }
+        const dbEjercicios = {
+            pesas: [
+                { n: "Press de Banca", d: "4 series x 10 reps", t: "Pesas", i: "fa-dumbbell" },
+                { n: "Sentadilla con Barra", d: "4 series x 12 reps", t: "Pesas", i: "fa-dumbbell" },
+                { n: "Peso Muerto", d: "3 series x 8 reps", t: "Pesas", i: "fa-dumbbell" }
             ],
-            2: [ // Nivel Medio
-                { nombre: "Trote Suave / Jogging", tiempo: "40 min", freq: "3-4 veces/sem", obs: "Zona 2 de pulso" },
-                { nombre: "Circuito Calistenia", tiempo: "30 min", freq: "3 veces/sem", obs: "Sentadillas, flexiones y plancha" },
-                { nombre: "HIIT Iniciación", tiempo: "15 min", freq: "2 veces/sem", obs: "30s activo / 30s descanso" }
+            barras: [
+                { n: "Dominadas (Pull-ups)", d: "Al fallo técnico", t: "Barras", i: "fa-bars" },
+                { n: "Fondos en Paralelas", d: "3 series x 15 reps", t: "Barras", i: "fa-bars" },
+                { n: "Muscle Ups", d: "3 series x 5 reps", t: "Barras", i: "fa-bars" }
             ],
-            3: [ // Nivel Alto
-                { nombre: "Entrenamiento Fuerza", tiempo: "60 min", freq: "5 veces/sem", obs: "Cargas pesadas (RPE 8-9)" },
-                { nombre: "Series de Sprint", tiempo: "25 min", freq: "2 veces/sem", obs: "Máxima intensidad" },
-                { nombre: "Acondicionamiento Metcon", tiempo: "45 min", freq: "3 veces/sem", obs: "Mínimo descanso entre bloques" }
+            bandas: [
+                { n: "Facepull con Banda", d: "4 series x 20 reps", t: "Bandas", i: "fa-infinity" },
+                { n: "Pasos Laterales", d: "3 series x 15m", t: "Bandas", i: "fa-infinity" },
+                { n: "Bíceps con Resistencia", d: "3 series x 20 reps", t: "Bandas", i: "fa-infinity" }
             ]
         };
 
-        function generarTodo(nivel) {
+        function generarRutina(nivel) {
             const peso = parseFloat(document.getElementById('peso').value);
-            if (!peso) return alert("Ingresa tu peso primero");
+            if (!peso) return alert("Indica tu peso para ajustar la potencia");
 
-            // 1. Calcular Nutrición
-            let ajuste = nivel === 1 ? 0.8 : (nivel === 3 ? 1.4 : 1);
-            document.getElementById('res-prot').innerText = Math.round(peso * 2) + "g";
-            document.getElementById('res-carb').innerText = Math.round(peso * 2.5 * ajuste) + "g";
-            document.getElementById('res-gras').innerText = Math.round(peso * 0.8) + "g";
-            document.getElementById('seccion-macros').classList.remove('hidden');
+            // Lógica Nutricional
+            let mult = nivel === 1 ? 2.5 : (nivel === 2 ? 3.5 : 5);
+            let p = peso * 2;
+            let c = peso * mult;
+            let g = peso * 0.9;
+            let kcal = (p * 4) + (c * 4) + (g * 9);
 
-            // 2. Generar Ejercicios
-            const lista = document.getElementById('lista-ejercicios');
-            lista.innerHTML = ""; // Limpiar
-            let tiempoAcumulado = 0;
+            document.getElementById('p-val').innerText = Math.round(p) + "g";
+            document.getElementById('c-val').innerText = Math.round(c) + "g";
+            document.getElementById('g-val').innerText = Math.round(g) + "g";
+            document.getElementById('kcal-val').innerText = Math.round(kcal);
+            document.getElementById('macros-ui').classList.remove('hidden');
 
-            baseEjercicios[nivel].forEach(ex => {
-                tiempoAcumulado += parseInt(ex.tiempo);
-                lista.innerHTML += `
-                    <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-emerald-500 flex justify-between items-center shadow-md">
-                        <div>
-                            <h4 class="font-bold text-emerald-400">${ex.nombre}</h4>
-                            <p class="text-xs text-gray-400">${ex.freq} | ${ex.obs}</p>
+            // Lógica de Ejercicios (Mezcla de todo)
+            const contenedor = document.getElementById('contenedor-ejercicios');
+            contenedor.innerHTML = "";
+            
+            // Mezclamos un poco de cada categoría según el nivel
+            const miSeleccion = [
+                ...dbEjercicios.pesas.slice(0, nivel),
+                ...dbEjercicios.barras.slice(0, nivel),
+                ...dbEjercicios.bandas.slice(0, nivel)
+            ];
+
+            miSeleccion.forEach(ex => {
+                contenedor.innerHTML += `
+                    <div class="bg-gray-800 p-5 rounded-2xl border-l-4 border-emerald-500 flex justify-between items-center group hover:bg-gray-750 transition">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-gray-900 p-3 rounded-xl text-emerald-500 group-hover:scale-110 transition">
+                                <i class="fas ${ex.i}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-white uppercase text-sm">${ex.n}</h4>
+                                <p class="text-xs text-emerald-500 font-bold">${ex.t}</p>
+                            </div>
                         </div>
                         <div class="text-right">
-                            <span class="text-lg font-black">${ex.tiempo}</span>
+                            <span class="text-xs font-bold text-gray-400 bg-gray-900 px-3 py-1 rounded-full border border-gray-700">${ex.d}</span>
                         </div>
                     </div>
                 `;
             });
 
-            document.getElementById('tiempo-total').innerText = "Carga: " + tiempoAcumulado + " min/sesión aprox.";
-            document.getElementById('seccion-ejercicios').classList.remove('hidden');
+            document.getElementById('rutina-ui').classList.remove('hidden');
         }
     </script>
 </body>
