@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriSport Pro | Entrenamiento Dinámico</title>
+    <title>NutriSport Pro | Entrenador Ilimitado</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -12,115 +12,100 @@
     <main class="max-w-2xl mx-auto p-6">
         <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-emerald-500 italic">NUTRI<span class="text-white">SPORT</span></h1>
-            <p class="text-gray-400 mt-2">Ajuste dinámico según tu nivel de entrenamiento</p>
+            <p class="text-gray-400 mt-2">Nutrición & Rutinas Inteligentes</p>
         </header>
 
-        <section class="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-6 shadow-xl">
-            <h3 class="text-sm font-bold text-gray-500 uppercase mb-4 tracking-widest">1. Tus Medidas</h3>
+        <section class="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-6">
             <div class="grid grid-cols-2 gap-4">
-                <input type="number" id="peso" placeholder="Peso (kg)" class="bg-gray-900 border border-gray-600 rounded-lg p-3 outline-none focus:border-emerald-500">
-                <select id="objetivo" class="bg-gray-900 border border-gray-600 rounded-lg p-3 outline-none focus:border-emerald-500 text-gray-400">
-                    <option value="perder">Perder Grasa</option>
-                    <option value="mantener">Mantener Peso</option>
+                <input type="number" id="peso" placeholder="Peso (kg)" class="bg-gray-900 border border-gray-600 rounded-lg p-3 outline-none">
+                <select id="objetivo" class="bg-gray-900 border border-gray-600 rounded-lg p-3 outline-none">
+                    <option value="perder">Quemar Grasa</option>
+                    <option value="mantener">Mantenerse</option>
                     <option value="ganar">Ganar Músculo</option>
                 </select>
             </div>
-        </section>
-
-        <section class="bg-gray-800 p-6 rounded-2xl border border-gray-700 mb-8 shadow-xl">
-            <h3 class="text-sm font-bold text-gray-500 uppercase mb-4 tracking-widest">2. Nivel de Esfuerzo Hoy</h3>
-            <div class="grid grid-cols-3 gap-3">
-                <button onclick="calcularPlan(1)" class="level-btn flex flex-col items-center p-4 bg-gray-900 border-2 border-transparent rounded-xl hover:border-emerald-500 transition">
-                    <i class="fas fa-walking text-blue-400 mb-2"></i>
-                    <span class="text-xs font-bold">BAJO</span>
+            <div class="grid grid-cols-3 gap-3 mt-6">
+                <button onclick="generarTodo(1)" class="level-btn p-3 bg-gray-900 border-2 border-transparent rounded-xl hover:border-blue-500 transition">
+                    <i class="fas fa-leaf text-blue-400"></i><br><span class="text-[10px]">BAJO</span>
                 </button>
-                <button onclick="calcularPlan(2)" class="level-btn flex flex-col items-center p-4 bg-gray-900 border-2 border-transparent rounded-xl hover:border-emerald-500 transition border-emerald-500">
-                    <i class="fas fa-running text-yellow-400 mb-2"></i>
-                    <span class="text-xs font-bold">MEDIO</span>
+                <button onclick="generarTodo(2)" class="level-btn p-3 bg-gray-900 border-2 border-transparent rounded-xl hover:border-yellow-500 transition">
+                    <i class="fas fa-bolt text-yellow-400"></i><br><span class="text-[10px]">MEDIO</span>
                 </button>
-                <button onclick="calcularPlan(3)" class="level-btn flex flex-col items-center p-4 bg-gray-900 border-2 border-transparent rounded-xl hover:border-emerald-500 transition">
-                    <i class="fas fa-dumbbell text-red-500 mb-2"></i>
-                    <span class="text-xs font-bold">ALTO</span>
+                <button onclick="generarTodo(3)" class="level-btn p-3 bg-gray-900 border-2 border-transparent rounded-xl hover:border-red-500 transition">
+                    <i class="fas fa-fire text-red-500"></i><br><span class="text-[10px]">ALTO</span>
                 </button>
             </div>
         </section>
 
-        <div id="resultados" class="hidden animate-pulse-slow">
-            <div class="grid grid-cols-3 gap-4 mb-6 text-center">
-                <div class="bg-blue-900/20 p-4 rounded-2xl border border-blue-500/30">
-                    <p class="text-[10px] text-blue-300 font-bold uppercase">Proteína</p>
-                    <p id="res-prot" class="text-2xl font-black">--</p>
-                </div>
-                <div class="bg-yellow-900/20 p-4 rounded-2xl border border-yellow-500/30">
-                    <p class="text-[10px] text-yellow-300 font-bold uppercase">Carbos</p>
-                    <p id="res-carb" class="text-2xl font-black text-yellow-400">--</p>
-                </div>
-                <div class="bg-red-900/20 p-4 rounded-2xl border border-red-500/30">
-                    <p class="text-[10px] text-red-300 font-bold uppercase">Grasas</p>
-                    <p id="res-gras" class="text-2xl font-black">--</p>
-                </div>
-            </div>
-            
-            <div class="bg-emerald-600/10 p-4 rounded-xl text-center border border-emerald-500/20">
-                <p class="text-emerald-400 text-sm italic" id="consejo">Introduce datos para ver tu recomendación.</p>
-            </div>
+        <div id="seccion-macros" class="hidden grid grid-cols-3 gap-4 mb-6 text-center">
+            <div class="bg-gray-800 p-3 rounded-xl border-b-2 border-blue-500"><p class="text-xs text-gray-400">Prot</p><p id="res-prot" class="font-bold">--</p></div>
+            <div class="bg-gray-800 p-3 rounded-xl border-b-2 border-yellow-500"><p class="text-xs text-gray-400">Carb</p><p id="res-carb" class="font-bold">--</p></div>
+            <div class="bg-gray-800 p-3 rounded-xl border-b-2 border-red-500"><p class="text-xs text-gray-400">Gras</p><p id="res-gras" class="font-bold">--</p></div>
         </div>
+
+        <section id="seccion-ejercicios" class="hidden">
+            <h3 class="text-lg font-bold mb-4 flex justify-between items-center">
+                <span>Rutina Recomendada</span>
+                <span id="tiempo-total" class="text-sm bg-emerald-600 px-2 py-1 rounded text-white italic">0 min</span>
+            </h3>
+            <div id="lista-ejercicios" class="space-y-3">
+                </div>
+        </section>
     </main>
 
     <script>
-        function calcularPlan(nivel) {
+        const baseEjercicios = {
+            1: [ // Nivel Bajo
+                { nombre: "Caminata Activa", tiempo: "30 min", freq: "Diario", obs: "Ritmo constante" },
+                { nombre: "Movilidad Articular", tiempo: "10 min", freq: "3 veces/sem", obs: "Foco en cadera y hombros" },
+                { nombre: "Estiramientos Globales", tiempo: "15 min", freq: "Diario", obs: "Al final del día" }
+            ],
+            2: [ // Nivel Medio
+                { nombre: "Trote Suave / Jogging", tiempo: "40 min", freq: "3-4 veces/sem", obs: "Zona 2 de pulso" },
+                { nombre: "Circuito Calistenia", tiempo: "30 min", freq: "3 veces/sem", obs: "Sentadillas, flexiones y plancha" },
+                { nombre: "HIIT Iniciación", tiempo: "15 min", freq: "2 veces/sem", obs: "30s activo / 30s descanso" }
+            ],
+            3: [ // Nivel Alto
+                { nombre: "Entrenamiento Fuerza", tiempo: "60 min", freq: "5 veces/sem", obs: "Cargas pesadas (RPE 8-9)" },
+                { nombre: "Series de Sprint", tiempo: "25 min", freq: "2 veces/sem", obs: "Máxima intensidad" },
+                { nombre: "Acondicionamiento Metcon", tiempo: "45 min", freq: "3 veces/sem", obs: "Mínimo descanso entre bloques" }
+            ]
+        };
+
+        function generarTodo(nivel) {
             const peso = parseFloat(document.getElementById('peso').value);
-            const objetivo = document.getElementById('objetivo').value;
-            
-            if (!peso) {
-                alert("Primero introduce tu peso actual.");
-                return;
-            }
+            if (!peso) return alert("Ingresa tu peso primero");
 
-            // Lógica de Niveles (Clon INDYA)
-            // Nivel 1 (Bajo): Carbos base
-            // Nivel 2 (Medio): +20% Carbos
-            // Nivel 3 (Alto): +50% Carbos (Carga de glucógeno)
+            // 1. Calcular Nutrición
+            let ajuste = nivel === 1 ? 0.8 : (nivel === 3 ? 1.4 : 1);
+            document.getElementById('res-prot').innerText = Math.round(peso * 2) + "g";
+            document.getElementById('res-carb').innerText = Math.round(peso * 2.5 * ajuste) + "g";
+            document.getElementById('res-gras').innerText = Math.round(peso * 0.8) + "g";
+            document.getElementById('seccion-macros').classList.remove('hidden');
 
-            let factorCarbo = 2.5; // Base (mantener)
-            if(objetivo === 'ganar') factorCarbo = 4;
-            if(objetivo === 'perder') factorCarbo = 1.8;
+            // 2. Generar Ejercicios
+            const lista = document.getElementById('lista-ejercicios');
+            lista.innerHTML = ""; // Limpiar
+            let tiempoAcumulado = 0;
 
-            // Ajuste por intensidad del botón
-            let ajusteNivel = nivel === 1 ? 0.8 : (nivel === 3 ? 1.5 : 1);
-            
-            let prot = peso * 2; 
-            let gras = peso * 0.8;
-            let carb = peso * factorCarbo * ajusteNivel;
-
-            // Actualizar interfaz
-            document.getElementById('res-prot').innerText = Math.round(prot) + "g";
-            document.getElementById('res-carb').innerText = Math.round(carb) + "g";
-            document.getElementById('res-gras').innerText = Math.round(gras) + "g";
-            
-            const consejos = [
-                "Nivel Bajo: Ideal para días de descanso o yoga.",
-                "Nivel Medio: Entrenamiento estándar de 45-60 min.",
-                "Nivel Alto: Sesión intensa. ¡Asegura tu recuperación post-entreno!"
-            ];
-            document.getElementById('consejo').innerText = consejos[nivel-1];
-            document.getElementById('resultados').classList.remove('hidden');
-
-            // Feedback visual en botones
-            const buttons = document.querySelectorAll('.level-btn');
-            buttons.forEach((btn, idx) => {
-                btn.style.borderColor = (idx === nivel-1) ? '#10b981' : 'transparent';
+            baseEjercicios[nivel].forEach(ex => {
+                tiempoAcumulado += parseInt(ex.tiempo);
+                lista.innerHTML += `
+                    <div class="bg-gray-800 p-4 rounded-xl border-l-4 border-emerald-500 flex justify-between items-center shadow-md">
+                        <div>
+                            <h4 class="font-bold text-emerald-400">${ex.nombre}</h4>
+                            <p class="text-xs text-gray-400">${ex.freq} | ${ex.obs}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-lg font-black">${ex.tiempo}</span>
+                        </div>
+                    </div>
+                `;
             });
+
+            document.getElementById('tiempo-total').innerText = "Carga: " + tiempoAcumulado + " min/sesión aprox.";
+            document.getElementById('seccion-ejercicios').classList.remove('hidden');
         }
     </script>
-
-    <style>
-        @keyframes pulse-slow {
-            0% { opacity: 0.8; }
-            50% { opacity: 1; }
-            100% { opacity: 0.8; }
-        }
-        .animate-pulse-slow { animation: pulse-slow 3s infinite; }
-    </style>
 </body>
 </html>
