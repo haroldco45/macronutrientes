@@ -3,129 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriSport Pro | Entrenamiento Total</title>
+    <title>NutriSport Pro | Premium Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .seccion-card { @apply bg-gray-800 p-4 rounded-2xl border-l-4 transition-all hover:scale-[1.01] mb-3 flex justify-between items-center shadow-lg; }
+        .tab-btn { @apply px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition whitespace-nowrap bg-gray-800 text-gray-400 hover:bg-gray-700; }
+        .active-tab { @apply bg-emerald-600 text-white !important; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans">
+<body class="bg-gray-900 text-gray-100 font-sans pb-20">
 
-    <main class="max-w-2xl mx-auto p-6">
+    <div id="paywall" class="hidden fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-6 text-center">
+        <i class="fas fa-lock text-6xl text-emerald-500 mb-6"></i>
+        <h2 class="text-3xl font-black mb-2">PRUEBA DE 15 DÍAS TERMINADA</h2>
+        <p class="text-gray-400 mb-8">Tu periodo de acceso gratuito ha finalizado. Suscríbete para continuar con tu alto rendimiento.</p>
+        <button class="bg-emerald-600 px-8 py-4 rounded-full font-black uppercase tracking-widest hover:bg-emerald-500 transition">Renovar Suscripción</button>
+    </div>
+
+    <main id="app-content" class="max-w-2xl mx-auto p-6">
         <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-emerald-500 italic uppercase tracking-tighter">Nutri<span class="text-white">Sport</span> Pro</h1>
-            <p class="text-gray-400 text-sm">Pesas • Barras • Bandas • Nutrición</p>
+            <h1 class="text-2xl font-black text-emerald-500 italic uppercase">NutriSport <span class="text-white">Elite</span></h1>
+            <div id="trial-counter" class="text-[10px] text-gray-500 mt-1 uppercase font-bold tracking-widest"></div>
         </header>
 
-        <section class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-2xl mb-6">
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <input type="number" id="peso" placeholder="Peso (kg)" class="bg-gray-900 border border-gray-700 rounded-2xl p-4 outline-none focus:ring-2 focus:ring-emerald-500 transition">
-                <select id="objetivo" class="bg-gray-900 border border-gray-700 rounded-2xl p-4 outline-none">
-                    <option value="perder">Definición</option>
-                    <option value="mantener">Mantenimiento</option>
-                    <option value="ganar">Volumen (Músculo)</option>
-                </select>
-            </div>
-
-            <p class="text-center text-xs font-bold text-gray-500 uppercase mb-4">Selecciona Intensidad de Hoy</p>
-            <div class="grid grid-cols-3 gap-3">
-                <button onclick="generarRutina(1)" class="lvl-btn p-4 bg-gray-900 rounded-2xl border-2 border-transparent hover:border-blue-500 transition">
-                    <i class="fas fa-bolt text-blue-400 mb-1"></i><br><span class="text-[10px] font-black">SUAVE</span>
-                </button>
-                <button onclick="generarRutina(2)" class="lvl-btn p-4 bg-gray-900 rounded-2xl border-2 border-transparent hover:border-yellow-500 transition">
-                    <i class="fas fa-fire text-yellow-500 mb-1"></i><br><span class="text-[10px] font-black">MEDIO</span>
-                </button>
-                <button onclick="generarRutina(3)" class="lvl-btn p-4 bg-gray-900 rounded-2xl border-2 border-transparent hover:border-red-600 transition">
-                    <i class="fas fa-dumbbell text-red-600 mb-1"></i><br><span class="text-[10px] font-black">BESTIA</span>
-                </button>
-            </div>
-        </section>
-
-        <div id="macros-ui" class="hidden mb-8 animate-fade-in">
-            <div class="flex justify-between items-center bg-emerald-900/20 p-4 rounded-2xl border border-emerald-500/30">
-                <div><p class="text-[10px] text-emerald-500 font-bold">PROT</p><p id="p-val" class="text-xl font-black">--</p></div>
-                <div><p class="text-[10px] text-emerald-500 font-bold">CARB</p><p id="c-val" class="text-xl font-black">--</p></div>
-                <div><p class="text-[10px] text-emerald-500 font-bold">GRAS</p><p id="g-val" class="text-xl font-black">--</p></div>
-                <div class="text-right border-l border-emerald-500/30 pl-4">
-                    <p class="text-[10px] text-emerald-500 font-bold">CALORÍAS</p>
-                    <p id="kcal-val" class="text-xl font-black text-emerald-400">--</p>
-                </div>
-            </div>
+        <div class="flex overflow-x-auto space-x-2 mb-8 pb-4 no-scrollbar">
+            <button onclick="mostrar('entreno', this)" class="tab-btn active-tab">🏋️ Entreno</button>
+            <button onclick="mostrar('calentamiento', this)" class="tab-btn">🔥 Calentar</button>
+            <button onclick="mostrar('yoga', this)" class="tab-btn">🧘 Yoga</button>
+            <button onclick="mostrar('respiracion', this)" class="tab-btn">🌬️ Respirar</button>
+            <button onclick="mostrar('estiramiento', this)" class="tab-btn">📏 Estirar</button>
+            <button onclick="mostrar('relajacion', this)" class="tab-btn">🌙 Relax</button>
         </div>
 
-        <div id="rutina-ui" class="hidden space-y-4">
-            <h3 class="text-lg font-black uppercase tracking-widest text-gray-500">Plan de Trabajo</h3>
-            <div id="contenedor-ejercicios" class="space-y-3">
-                </div>
-        </div>
+        <div id="main-display" class="space-y-4">
+            </div>
     </main>
 
     <script>
-        const dbEjercicios = {
-            pesas: [
-                { n: "Press de Banca", d: "4 series x 10 reps", t: "Pesas", i: "fa-dumbbell" },
-                { n: "Sentadilla con Barra", d: "4 series x 12 reps", t: "Pesas", i: "fa-dumbbell" },
-                { n: "Peso Muerto", d: "3 series x 8 reps", t: "Pesas", i: "fa-dumbbell" }
-            ],
-            barras: [
-                { n: "Dominadas (Pull-ups)", d: "Al fallo técnico", t: "Barras", i: "fa-bars" },
-                { n: "Fondos en Paralelas", d: "3 series x 15 reps", t: "Barras", i: "fa-bars" },
-                { n: "Muscle Ups", d: "3 series x 5 reps", t: "Barras", i: "fa-bars" }
-            ],
-            bandas: [
-                { n: "Facepull con Banda", d: "4 series x 20 reps", t: "Bandas", i: "fa-infinity" },
-                { n: "Pasos Laterales", d: "3 series x 15m", t: "Bandas", i: "fa-infinity" },
-                { n: "Bíceps con Resistencia", d: "3 series x 20 reps", t: "Bandas", i: "fa-infinity" }
-            ]
+        // 1. CONTROL DE SUSCRIPCIÓN INVISIBLE (15 DÍAS)
+        const TRIAL_DAYS = 15;
+        
+        function verificarSuscripcion() {
+            let fechaInicio = localStorage.getItem('fecha_registro');
+            
+            if (!fechaInicio) {
+                fechaInicio = new Date().getTime();
+                localStorage.setItem('fecha_registro', fechaInicio);
+            }
+
+            const hoy = new Date().getTime();
+            const diasPasados = Math.floor((hoy - fechaInicio) / (1000 * 60 * 60 * 24));
+            const diasRestantes = TRIAL_DAYS - diasPasados;
+
+            if (diasRestantes <= 0) {
+                document.getElementById('paywall').classList.remove('hidden');
+                document.getElementById('app-content').classList.add('blur-md');
+            } else {
+                document.getElementById('trial-counter').innerText = `Días restantes de acceso: ${diasRestantes}`;
+            }
+        }
+
+        // 2. BASE DE DATOS DE EJERCICIOS Y SECCIONES
+        const baseDeDatos = {
+            entreno: { color: "border-emerald-500", items: [
+                { n: "Press de Banca (Pesas)", t: "12 reps", d: "Fuerza de empuje" },
+                { n: "Dominadas (Barra)", t: "Al fallo", d: "Fuerza de tracción" },
+                { n: "Sentadilla (Barra)", t: "10 reps", d: "Potencia de piernas" }
+            ]},
+            calentamiento: { color: "border-orange-500", items: [
+                { n: "Salto de Cuerda", t: "3 min", d: "Activación cardíaca" },
+                { n: "Rotación Articular", t: "5 min", d: "Lubricación hombros/cadera" }
+            ]},
+            yoga: { color: "border-purple-500", items: [
+                { n: "Saludo al Sol", t: "5 vueltas", d: "Flexibilidad dinámica" },
+                { n: "Postura del Cuervo", t: "30 seg", d: "Equilibrio y brazos" }
+            ]},
+            respiracion: { color: "border-blue-400", items: [
+                { n: "Método Wim Hof", t: "3 rondas", d: "Oxigenación profunda" },
+                { n: "Respiración Alterna", t: "5 min", d: "Balance hemisferios" }
+            ]},
+            estiramiento: { color: "border-yellow-500", items: [
+                { n: "Isquiotibiales", t: "1 min", d: "Con banda elástica" },
+                { n: "Apertura Pectoral", t: "1 min", d: "En pared" }
+            ]},
+            relajacion: { color: "border-indigo-600", items: [
+                { n: "Meditación Guiada", t: "10 min", d: "Frecuencia 432Hz" },
+                { n: "Relajación de Jacobson", t: "15 min", d: "Tensión-distensión" }
+            ]}
         };
 
-        function generarRutina(nivel) {
-            const peso = parseFloat(document.getElementById('peso').value);
-            if (!peso) return alert("Indica tu peso para ajustar la potencia");
+        // 3. LÓGICA DE INTERFAZ
+        function mostrar(seccion, btn) {
+            // Actualizar botones
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab'));
+            btn.classList.add('active-tab');
 
-            // Lógica Nutricional
-            let mult = nivel === 1 ? 2.5 : (nivel === 2 ? 3.5 : 5);
-            let p = peso * 2;
-            let c = peso * mult;
-            let g = peso * 0.9;
-            let kcal = (p * 4) + (c * 4) + (g * 9);
+            // Cargar contenido
+            const content = baseDeDatos[seccion];
+            const display = document.getElementById('main-display');
+            display.innerHTML = "";
 
-            document.getElementById('p-val').innerText = Math.round(p) + "g";
-            document.getElementById('c-val').innerText = Math.round(c) + "g";
-            document.getElementById('g-val').innerText = Math.round(g) + "g";
-            document.getElementById('kcal-val').innerText = Math.round(kcal);
-            document.getElementById('macros-ui').classList.remove('hidden');
-
-            // Lógica de Ejercicios (Mezcla de todo)
-            const contenedor = document.getElementById('contenedor-ejercicios');
-            contenedor.innerHTML = "";
-            
-            // Mezclamos un poco de cada categoría según el nivel
-            const miSeleccion = [
-                ...dbEjercicios.pesas.slice(0, nivel),
-                ...dbEjercicios.barras.slice(0, nivel),
-                ...dbEjercicios.bandas.slice(0, nivel)
-            ];
-
-            miSeleccion.forEach(ex => {
-                contenedor.innerHTML += `
-                    <div class="bg-gray-800 p-5 rounded-2xl border-l-4 border-emerald-500 flex justify-between items-center group hover:bg-gray-750 transition">
-                        <div class="flex items-center gap-4">
-                            <div class="bg-gray-900 p-3 rounded-xl text-emerald-500 group-hover:scale-110 transition">
-                                <i class="fas ${ex.i}"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-black text-white uppercase text-sm">${ex.n}</h4>
-                                <p class="text-xs text-emerald-500 font-bold">${ex.t}</p>
-                            </div>
+            content.items.forEach(item => {
+                display.innerHTML += `
+                    <div class="seccion-card ${content.color} animate-fade-in">
+                        <div>
+                            <h4 class="font-bold text-white text-sm uppercase">${item.n}</h4>
+                            <p class="text-[10px] text-gray-500">${item.d}</p>
                         </div>
-                        <div class="text-right">
-                            <span class="text-xs font-bold text-gray-400 bg-gray-900 px-3 py-1 rounded-full border border-gray-700">${ex.d}</span>
+                        <div class="text-emerald-500 font-black text-xs bg-black/30 px-3 py-2 rounded-xl border border-gray-700">
+                            ${item.t}
                         </div>
                     </div>
                 `;
             });
-
-            document.getElementById('rutina-ui').classList.remove('hidden');
         }
+
+        // Ejecutar al cargar
+        window.onload = () => {
+            verificarSuscripcion();
+            mostrar('entreno', document.querySelector('.tab-btn')); // Carga inicial
+        };
     </script>
 </body>
 </html>
