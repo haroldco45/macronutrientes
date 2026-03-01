@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriSport Pro | Premium Access</title>
+    <title>NutriSport Pro | All-in-One</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .seccion-card { @apply bg-gray-800 p-4 rounded-2xl border-l-4 transition-all hover:scale-[1.01] mb-3 flex justify-between items-center shadow-lg; }
-        .tab-btn { @apply px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition whitespace-nowrap bg-gray-800 text-gray-400 hover:bg-gray-700; }
+        .seccion-card { @apply bg-gray-800 p-4 rounded-2xl border-l-4 transition-all mb-3 flex justify-between items-center shadow-lg; }
+        .tab-btn { @apply px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider transition whitespace-nowrap bg-gray-800 text-gray-400; }
         .active-tab { @apply bg-emerald-600 text-white !important; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
@@ -17,102 +17,117 @@
 
     <div id="paywall" class="hidden fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-6 text-center">
         <i class="fas fa-lock text-6xl text-emerald-500 mb-6"></i>
-        <h2 class="text-3xl font-black mb-2">PRUEBA DE 15 DÍAS TERMINADA</h2>
-        <p class="text-gray-400 mb-8">Tu periodo de acceso gratuito ha finalizado. Suscríbete para continuar con tu alto rendimiento.</p>
-        <button class="bg-emerald-600 px-8 py-4 rounded-full font-black uppercase tracking-widest hover:bg-emerald-500 transition">Renovar Suscripción</button>
+        <h2 class="text-3xl font-black mb-2">ACCESO EXPIRADO</h2>
+        <p class="text-gray-400 mb-8">Tus 15 días de prueba han finalizado.</p>
+        <button class="bg-emerald-600 px-8 py-4 rounded-full font-black uppercase tracking-widest">Renovar Plan</button>
     </div>
 
     <main id="app-content" class="max-w-2xl mx-auto p-6">
-        <header class="text-center mb-8">
+        <header class="text-center mb-6">
             <h1 class="text-2xl font-black text-emerald-500 italic uppercase">NutriSport <span class="text-white">Elite</span></h1>
-            <div id="trial-counter" class="text-[10px] text-gray-500 mt-1 uppercase font-bold tracking-widest"></div>
+            <p id="trial-counter" class="text-[9px] text-gray-500 font-bold tracking-widest uppercase"></p>
         </header>
 
-        <div class="flex overflow-x-auto space-x-2 mb-8 pb-4 no-scrollbar">
-            <button onclick="mostrar('entreno', this)" class="tab-btn active-tab">🏋️ Entreno</button>
-            <button onclick="mostrar('calentamiento', this)" class="tab-btn">🔥 Calentar</button>
-            <button onclick="mostrar('yoga', this)" class="tab-btn">🧘 Yoga</button>
-            <button onclick="mostrar('respiracion', this)" class="tab-btn">🌬️ Respirar</button>
-            <button onclick="mostrar('estiramiento', this)" class="tab-btn">📏 Estirar</button>
-            <button onclick="mostrar('relajacion', this)" class="tab-btn">🌙 Relax</button>
+        <section class="bg-gray-800 p-5 rounded-3xl border border-gray-700 mb-6 shadow-xl">
+            <h3 class="text-[10px] font-bold text-gray-500 uppercase mb-4 tracking-widest text-center">Configuración de Perfil</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <input type="number" id="peso" placeholder="Peso (kg)" oninput="recalcularNutricion()" class="bg-gray-900 border border-gray-700 rounded-xl p-3 outline-none focus:ring-1 focus:ring-emerald-500 text-sm text-center font-bold">
+                <select id="objetivo" onchange="recalcularNutricion()" class="bg-gray-900 border border-gray-700 rounded-xl p-3 outline-none text-sm font-bold">
+                    <option value="perder">Perder Grasa</option>
+                    <option value="mantener">Mantenerse</option>
+                    <option value="ganar">Subir Músculo</option>
+                </select>
+            </div>
+        </section>
+
+        <section id="nutrition-panel" class="mb-8 opacity-50 transition-opacity duration-500">
+            <div class="grid grid-cols-4 gap-2 text-center bg-emerald-900/10 p-4 rounded-3xl border border-emerald-500/20">
+                <div><p class="text-[9px] text-emerald-500 font-bold uppercase">Prot</p><p id="p-val" class="font-black">0g</p></div>
+                <div><p class="text-[9px] text-emerald-500 font-bold uppercase">Carb</p><p id="c-val" class="font-black text-yellow-500">0g</p></div>
+                <div><p class="text-[9px] text-emerald-500 font-bold uppercase">Gras</p><p id="g-val" class="font-black">0g</p></div>
+                <div class="border-l border-emerald-500/20"><p class="text-[9px] text-emerald-500 font-bold uppercase">Kcal</p><p id="kcal-val" class="font-black text-emerald-400 text-lg">0</p></div>
+            </div>
+        </section>
+
+        <div class="flex overflow-x-auto space-x-2 mb-6 pb-2 no-scrollbar">
+            <button onclick="cambiarTab('entreno', this)" class="tab-btn active-tab">🏋️ Pesas/Barras</button>
+            <button onclick="cambiarTab('calentamiento', this)" class="tab-btn">🔥 Calentar</button>
+            <button onclick="cambiarTab('yoga', this)" class="tab-btn">🧘 Yoga</button>
+            <button onclick="cambiarTab('respiracion', this)" class="tab-btn">🌬️ Respirar</button>
+            <button onclick="cambiarTab('estiramiento', this)" class="tab-btn">📏 Estirar</button>
+            <button onclick="cambiarTab('relajacion', this)" class="tab-btn">🌙 Relax</button>
         </div>
 
-        <div id="main-display" class="space-y-4">
+        <div id="content-list" class="space-y-3">
             </div>
     </main>
 
     <script>
-        // 1. CONTROL DE SUSCRIPCIÓN INVISIBLE (15 DÍAS)
-        const TRIAL_DAYS = 15;
-        
-        function verificarSuscripcion() {
-            let fechaInicio = localStorage.getItem('fecha_registro');
-            
-            if (!fechaInicio) {
-                fechaInicio = new Date().getTime();
-                localStorage.setItem('fecha_registro', fechaInicio);
-            }
-
-            const hoy = new Date().getTime();
-            const diasPasados = Math.floor((hoy - fechaInicio) / (1000 * 60 * 60 * 24));
-            const diasRestantes = TRIAL_DAYS - diasPasados;
-
-            if (diasRestantes <= 0) {
-                document.getElementById('paywall').classList.remove('hidden');
-                document.getElementById('app-content').classList.add('blur-md');
-            } else {
-                document.getElementById('trial-counter').innerText = `Días restantes de acceso: ${diasRestantes}`;
-            }
-        }
-
-        // 2. BASE DE DATOS DE EJERCICIOS Y SECCIONES
-        const baseDeDatos = {
+        const database = {
             entreno: { color: "border-emerald-500", items: [
-                { n: "Press de Banca (Pesas)", t: "12 reps", d: "Fuerza de empuje" },
-                { n: "Dominadas (Barra)", t: "Al fallo", d: "Fuerza de tracción" },
-                { n: "Sentadilla (Barra)", t: "10 reps", d: "Potencia de piernas" }
+                { n: "Press Banca", t: "4x12", d: "Pesas - Pecho/Tríceps" },
+                { n: "Dominadas", t: "3xMAX", d: "Barras - Espalda" },
+                { n: "Sentadilla", t: "4x10", d: "Pesas - Piernas" },
+                { n: "Remo con Banda", t: "3x20", d: "Bandas - Dorsal" }
             ]},
             calentamiento: { color: "border-orange-500", items: [
-                { n: "Salto de Cuerda", t: "3 min", d: "Activación cardíaca" },
-                { n: "Rotación Articular", t: "5 min", d: "Lubricación hombros/cadera" }
+                { n: "Movilidad Cuello/Hombros", t: "3 min", d: "Círculos lentos" },
+                { n: "Trote o Saltos", t: "5 min", d: "Activación cardíaca" }
             ]},
             yoga: { color: "border-purple-500", items: [
-                { n: "Saludo al Sol", t: "5 vueltas", d: "Flexibilidad dinámica" },
-                { n: "Postura del Cuervo", t: "30 seg", d: "Equilibrio y brazos" }
+                { n: "Saludo al Sol", t: "5 min", d: "Vinyasa Flow" },
+                { n: "Postura del Guerrero", t: "3 min", d: "Fuerza y balance" }
             ]},
             respiracion: { color: "border-blue-400", items: [
-                { n: "Método Wim Hof", t: "3 rondas", d: "Oxigenación profunda" },
-                { n: "Respiración Alterna", t: "5 min", d: "Balance hemisferios" }
+                { n: "Técnica 4-7-8", t: "5 min", d: "Relajación total" },
+                { n: "Respiración de Fuego", t: "2 min", d: "Energía pura" }
             ]},
             estiramiento: { color: "border-yellow-500", items: [
-                { n: "Isquiotibiales", t: "1 min", d: "Con banda elástica" },
-                { n: "Apertura Pectoral", t: "1 min", d: "En pared" }
+                { n: "Pectoral en pared", t: "1 min", d: "Post-entreno" },
+                { n: "Isquios sentado", t: "2 min", d: "Flexibilidad" }
             ]},
             relajacion: { color: "border-indigo-600", items: [
-                { n: "Meditación Guiada", t: "10 min", d: "Frecuencia 432Hz" },
-                { n: "Relajación de Jacobson", t: "15 min", d: "Tensión-distensión" }
+                { n: "Meditación Zen", t: "10 min", d: "Enfoque mental" },
+                { n: "Sonido Blanco", t: "Infinito", d: "Descanso profundo" }
             ]}
         };
 
-        // 3. LÓGICA DE INTERFAZ
-        function mostrar(seccion, btn) {
-            // Actualizar botones
+        function recalcularNutricion() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const obj = document.getElementById('objetivo').value;
+            
+            if (!peso) return;
+
+            document.getElementById('nutrition-panel').style.opacity = "1";
+            
+            let mCarb = obj === 'ganar' ? 4.5 : (obj === 'perder' ? 2 : 3);
+            let p = peso * 2;
+            let c = peso * mCarb;
+            let g = peso * 0.8;
+            let kcal = (p * 4) + (c * 4) + (g * 9);
+
+            document.getElementById('p-val').innerText = Math.round(p) + "g";
+            document.getElementById('c-val').innerText = Math.round(c) + "g";
+            document.getElementById('g-val').innerText = Math.round(g) + "g";
+            document.getElementById('kcal-val').innerText = Math.round(kcal);
+        }
+
+        function cambiarTab(key, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab'));
             btn.classList.add('active-tab');
 
-            // Cargar contenido
-            const content = baseDeDatos[seccion];
-            const display = document.getElementById('main-display');
-            display.innerHTML = "";
+            const section = database[key];
+            const list = document.getElementById('content-list');
+            list.innerHTML = "";
 
-            content.items.forEach(item => {
-                display.innerHTML += `
-                    <div class="seccion-card ${content.color} animate-fade-in">
+            section.items.forEach(item => {
+                list.innerHTML += `
+                    <div class="seccion-card ${section.color} animate-fade-in">
                         <div>
-                            <h4 class="font-bold text-white text-sm uppercase">${item.n}</h4>
-                            <p class="text-[10px] text-gray-500">${item.d}</p>
+                            <h4 class="font-bold text-white text-xs uppercase">${item.n}</h4>
+                            <p class="text-[9px] text-gray-500 font-bold">${item.d}</p>
                         </div>
-                        <div class="text-emerald-500 font-black text-xs bg-black/30 px-3 py-2 rounded-xl border border-gray-700">
+                        <div class="text-emerald-500 font-black text-[10px] bg-black/40 px-3 py-2 rounded-xl border border-gray-700">
                             ${item.t}
                         </div>
                     </div>
@@ -120,10 +135,23 @@
             });
         }
 
-        // Ejecutar al cargar
+        // Lógica de Suscripción 15 días
         window.onload = () => {
-            verificarSuscripcion();
-            mostrar('entreno', document.querySelector('.tab-btn')); // Carga inicial
+            let inicio = localStorage.getItem('reg_date');
+            if (!inicio) {
+                inicio = new Date().getTime();
+                localStorage.setItem('reg_date', inicio);
+            }
+            let dias = Math.floor((new Date().getTime() - inicio) / (1000 * 86400));
+            let resto = 15 - dias;
+
+            if (resto <= 0) {
+                document.getElementById('paywall').classList.remove('hidden');
+                document.getElementById('app-content').classList.add('blur-lg');
+            } else {
+                document.getElementById('trial-counter').innerText = `Días de prueba restantes: ${resto}`;
+                cambiarTab('entreno', document.querySelector('.tab-btn'));
+            }
         };
     </script>
 </body>
