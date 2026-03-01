@@ -3,89 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriSport Pro | Clon INDYA</title>
+    <title>NutriSport | Configuración de Perfil</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans">
 
-    <nav class="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-900 sticky top-0 z-50">
-        <h1 class="text-2xl font-bold text-emerald-500 italic">NUTRI<span class="text-white">SPORT</span></h1>
-        <div class="space-x-6 hidden md:block">
-            <a href="#" class="hover:text-emerald-400">Plan Diario</a>
-            <a href="#" class="hover:text-emerald-400">Entrenamientos</a>
-            <a href="#" class="bg-emerald-600 px-4 py-2 rounded-lg font-bold">Mi Perfil</a>
-        </div>
-    </nav>
+    <main class="max-w-2xl mx-auto p-6">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-emerald-500">Configura tu Perfil</h1>
+            <p class="text-gray-400">Introduce tus medidas para personalizar tu plan nutricional.</p>
+        </header>
 
-    <main class="max-w-4xl mx-auto p-6">
-        
-        <section class="mb-10 text-center">
-            <h2 class="text-3xl font-bold mb-2">¡Hola, Atleta! 👋</h2>
-            <p class="text-gray-400">Tu plan se ha ajustado según tu sesión de hoy: <span class="text-emerald-400 font-semibold">Resistencia (Running)</span></p>
+        <section class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700 mb-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Peso (kg)</label>
+                    <input type="number" id="peso" placeholder="70" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Altura (cm)</label>
+                    <input type="number" id="altura" placeholder="175" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Edad</label>
+                    <input type="number" id="edad" placeholder="25" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-2">Objetivo</label>
+                    <select id="objetivo" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <option value="perder">Perder Grasa</option>
+                        <option value="mantener">Mantener Peso</option>
+                        <option value="ganar">Ganar Músculo</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="calcularPlan()" class="w-full mt-8 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                Actualizar mi Plan
+            </button>
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="bg-gray-800 p-6 rounded-2xl border-b-4 border-blue-500 shadow-xl">
-                <p class="text-gray-400 text-sm uppercase tracking-wider">Proteína</p>
-                <h3 class="text-4xl font-black mt-2">160g</h3>
-                <div class="w-full bg-gray-700 h-2 mt-4 rounded-full">
-                    <div class="bg-blue-500 h-2 w-[70%] rounded-full"></div>
+        <div id="resultados" class="hidden animate-fade-in">
+            <h2 class="text-xl font-bold mb-4 text-center">Tu Objetivo Diario</h2>
+            <div class="grid grid-cols-3 gap-4 mb-6 text-center">
+                <div class="bg-blue-900/30 p-4 rounded-xl border border-blue-500/50">
+                    <p class="text-xs text-blue-300">PROTEÍNA</p>
+                    <p id="res-prot" class="text-xl font-bold">--</p>
                 </div>
-            </div>
-            <div class="bg-gray-800 p-6 rounded-2xl border-b-4 border-yellow-500 shadow-xl">
-                <p class="text-gray-400 text-sm uppercase tracking-wider">Carbohidratos</p>
-                <h3 class="text-4xl font-black mt-2">320g</h3>
-                <div class="w-full bg-gray-700 h-2 mt-4 rounded-full">
-                    <div class="bg-yellow-500 h-2 w-[85%] rounded-full"></div>
+                <div class="bg-yellow-900/30 p-4 rounded-xl border border-yellow-500/50">
+                    <p class="text-xs text-yellow-300">CARBOS</p>
+                    <p id="res-carb" class="text-xl font-bold">--</p>
                 </div>
-            </div>
-            <div class="bg-gray-800 p-6 rounded-2xl border-b-4 border-red-500 shadow-xl">
-                <p class="text-gray-400 text-sm uppercase tracking-wider">Grasas</p>
-                <h3 class="text-4xl font-black mt-2">75g</h3>
-                <div class="w-full bg-gray-700 h-2 mt-4 rounded-full">
-                    <div class="bg-red-500 h-2 w-[50%] rounded-full"></div>
+                <div class="bg-red-900/30 p-4 rounded-xl border border-red-500/50">
+                    <p class="text-xs text-red-300">GRASAS</p>
+                    <p id="res-gras" class="text-xl font-bold">--</p>
                 </div>
             </div>
         </div>
-
-        <section class="space-y-4">
-            <h3 class="text-xl font-bold mb-4 flex items-center">
-                <i class="fas fa-utensils mr-2 text-emerald-500"></i> Tu Menú de Hoy
-            </h3>
-            
-            <div class="bg-gray-800 p-4 rounded-xl flex items-center justify-between hover:bg-gray-750 transition">
-                <div class="flex items-center space-x-4">
-                    <div class="bg-emerald-500/10 p-3 rounded-lg text-emerald-500">
-                        <i class="fas fa-sun text-xl"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-lg">Desayuno Pre-Entreno</h4>
-                        <p class="text-sm text-gray-400">Porridge de avena con plátano y nueces</p>
-                    </div>
-                </div>
-                <span class="text-xs bg-gray-700 px-2 py-1 rounded text-gray-300">650 kcal</span>
-            </div>
-
-            <div class="bg-gray-800 p-4 rounded-xl flex items-center justify-between border-l-4 border-emerald-500">
-                <div class="flex items-center space-x-4">
-                    <div class="bg-emerald-500/10 p-3 rounded-lg text-emerald-500">
-                        <i class="fas fa-cloud-sun text-xl"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-lg">Almuerzo Recuperador</h4>
-                        <p class="text-sm text-gray-400">Salmón a la plancha con quinoa y espárragos</p>
-                    </div>
-                </div>
-                <span class="text-xs bg-gray-700 px-2 py-1 rounded text-gray-300">820 kcal</span>
-            </div>
-        </section>
-
     </main>
 
-    <footer class="mt-20 p-10 bg-black text-center text-gray-500 text-sm">
-        <p>&copy; 2026 NutriSport Dynamic Engine. Inspirado en el rendimiento de élite.</p>
-    </footer>
+    <script>
+        function calcularPlan() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const objetivo = document.getElementById('objetivo').value;
+            
+            if (!peso) return alert("Por favor, introduce tu peso.");
 
+            // Lógica simple de macros (clon de algoritmo básico)
+            let prot = peso * 2; // 2g por kilo
+            let gras = peso * 0.8; // 0.8g por kilo
+            let carb = objetivo === 'ganar' ? peso * 4 : (objetivo === 'perder' ? peso * 2 : peso * 3);
+
+            document.getElementById('res-prot').innerText = Math.round(prot) + "g";
+            document.getElementById('res-carb').innerText = Math.round(carb) + "g";
+            document.getElementById('res-gras').innerText = Math.round(gras) + "g";
+            
+            document.getElementById('resultados').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
