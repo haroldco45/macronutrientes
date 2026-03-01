@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriSport Pro | All-in-One</title>
+    <title>NutriSport Pro | Rutina Completa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -17,9 +17,9 @@
 
     <div id="paywall" class="hidden fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-6 text-center">
         <i class="fas fa-lock text-6xl text-emerald-500 mb-6"></i>
-        <h2 class="text-3xl font-black mb-2">ACCESO EXPIRADO</h2>
+        <h2 class="text-3xl font-black mb-2 text-white">ACCESO EXPIRADO</h2>
         <p class="text-gray-400 mb-8">Tus 15 días de prueba han finalizado.</p>
-        <button class="bg-emerald-600 px-8 py-4 rounded-full font-black uppercase tracking-widest">Renovar Plan</button>
+        <button class="bg-emerald-600 px-8 py-4 rounded-full font-black uppercase tracking-widest text-white">Renovar Plan</button>
     </div>
 
     <main id="app-content" class="max-w-2xl mx-auto p-6">
@@ -29,33 +29,28 @@
         </header>
 
         <section class="bg-gray-800 p-5 rounded-3xl border border-gray-700 mb-6 shadow-xl">
-            <h3 class="text-[10px] font-bold text-gray-500 uppercase mb-4 tracking-widest text-center">Configuración de Perfil</h3>
-            <div class="grid grid-cols-2 gap-4">
-                <input type="number" id="peso" placeholder="Peso (kg)" oninput="recalcularNutricion()" class="bg-gray-900 border border-gray-700 rounded-xl p-3 outline-none focus:ring-1 focus:ring-emerald-500 text-sm text-center font-bold">
-                <select id="objetivo" onchange="recalcularNutricion()" class="bg-gray-900 border border-gray-700 rounded-xl p-3 outline-none text-sm font-bold">
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <input type="number" id="peso" placeholder="Peso (kg)" oninput="recalcularNutricion()" class="bg-gray-900 border border-gray-700 rounded-xl p-3 outline-none text-sm text-center font-bold text-white">
+                <select id="objetivo" onchange="recalcularNutricion()" class="bg-gray-900 border border-gray-700 rounded-xl p-3 outline-none text-sm font-bold text-white">
                     <option value="perder">Perder Grasa</option>
                     <option value="mantener">Mantenerse</option>
                     <option value="ganar">Subir Músculo</option>
                 </select>
             </div>
-        </section>
-
-        <section id="nutrition-panel" class="mb-8 opacity-50 transition-opacity duration-500">
-            <div class="grid grid-cols-4 gap-2 text-center bg-emerald-900/10 p-4 rounded-3xl border border-emerald-500/20">
-                <div><p class="text-[9px] text-emerald-500 font-bold uppercase">Prot</p><p id="p-val" class="font-black">0g</p></div>
-                <div><p class="text-[9px] text-emerald-500 font-bold uppercase">Carb</p><p id="c-val" class="font-black text-yellow-500">0g</p></div>
-                <div><p class="text-[9px] text-emerald-500 font-bold uppercase">Gras</p><p id="g-val" class="font-black">0g</p></div>
-                <div class="border-l border-emerald-500/20"><p class="text-[9px] text-emerald-500 font-bold uppercase">Kcal</p><p id="kcal-val" class="font-black text-emerald-400 text-lg">0</p></div>
+            <div id="nutrition-panel" class="grid grid-cols-4 gap-2 text-center bg-emerald-900/10 p-3 rounded-2xl border border-emerald-500/20">
+                <div><p class="text-[8px] text-emerald-500 font-bold uppercase">Prot</p><p id="p-val" class="text-sm font-black">0g</p></div>
+                <div><p class="text-[8px] text-emerald-500 font-bold uppercase">Carb</p><p id="c-val" class="text-sm font-black text-yellow-500">0g</p></div>
+                <div><p class="text-[8px] text-emerald-500 font-bold uppercase">Gras</p><p id="g-val" class="text-sm font-black">0g</p></div>
+                <div class="border-l border-emerald-500/20"><p class="text-[8px] text-emerald-500 font-bold uppercase">Kcal</p><p id="kcal-val" class="text-sm font-black text-emerald-400">0</p></div>
             </div>
         </section>
 
         <div class="flex overflow-x-auto space-x-2 mb-6 pb-2 no-scrollbar">
-            <button onclick="cambiarTab('entreno', this)" class="tab-btn active-tab">🏋️ Pesas/Barras</button>
-            <button onclick="cambiarTab('calentamiento', this)" class="tab-btn">🔥 Calentar</button>
-            <button onclick="cambiarTab('yoga', this)" class="tab-btn">🧘 Yoga</button>
-            <button onclick="cambiarTab('respiracion', this)" class="tab-btn">🌬️ Respirar</button>
-            <button onclick="cambiarTab('estiramiento', this)" class="tab-btn">📏 Estirar</button>
-            <button onclick="cambiarTab('relajacion', this)" class="tab-btn">🌙 Relax</button>
+            <button onclick="cambiarTab('brazos', this)" class="tab-btn active-tab">💪 Brazos</button>
+            <button onclick="cambiarTab('piernas', this)" class="tab-btn">🦵 Piernas</button>
+            <button onclick="cambiarTab('core', this)" class="tab-btn">🛡️ Core/Abdo</button>
+            <button onclick="cambiarTab('cardio', this)" class="tab-btn">⚡ Cardio</button>
+            <button onclick="cambiarTab('bienestar', this)" class="tab-btn">🧘 Relax/Yoga</button>
         </div>
 
         <div id="content-list" class="space-y-3">
@@ -64,62 +59,55 @@
 
     <script>
         const database = {
-            entreno: { color: "border-emerald-500", items: [
-                { n: "Press Banca", t: "4x12", d: "Pesas - Pecho/Tríceps" },
-                { n: "Dominadas", t: "3xMAX", d: "Barras - Espalda" },
-                { n: "Sentadilla", t: "4x10", d: "Pesas - Piernas" },
-                { n: "Remo con Banda", t: "3x20", d: "Bandas - Dorsal" }
+            brazos: { color: "border-blue-500", items: [
+                { n: "Flexiones de Pecho", t: "3 x 15", d: "Pecho y Tríceps (Push-ups)" },
+                { n: "Curl de Bíceps", t: "4 x 12", d: "Pesas o Bandas" },
+                { n: "Fondos de Tríceps", t: "3 x 12", d: "En banco o silla" },
+                { n: "Press Militar", t: "4 x 10", d: "Hombros - Pesas o Barra" }
             ]},
-            calentamiento: { color: "border-orange-500", items: [
-                { n: "Movilidad Cuello/Hombros", t: "3 min", d: "Círculos lentos" },
-                { n: "Trote o Saltos", t: "5 min", d: "Activación cardíaca" }
+            piernas: { color: "border-emerald-500", items: [
+                { n: "Sentadillas Profundas", t: "4 x 15", d: "Glúteos y Cuádriceps" },
+                { n: "Zancadas (Lunges)", t: "3 x 12", d: "Equilibrio y potencia" },
+                { n: "Peso Muerto Rumano", t: "4 x 10", d: "Isquiotibiales - Barra" },
+                { n: "Elevación de Talón", t: "4 x 20", d: "Gemelos" }
             ]},
-            yoga: { color: "border-purple-500", items: [
-                { n: "Saludo al Sol", t: "5 min", d: "Vinyasa Flow" },
-                { n: "Postura del Guerrero", t: "3 min", d: "Fuerza y balance" }
+            core: { color: "border-yellow-500", items: [
+                { n: "Plancha Abdominal", t: "3 x 60s", d: "Resistencia isométrica" },
+                { n: "Crunch Abdominal", t: "3 x 20", d: "Abdomen superior" },
+                { n: "Elevación de Piernas", t: "3 x 15", d: "Abdomen inferior" },
+                { n: "Plancha Lateral", t: "30s /lado", d: "Oblicuos" }
             ]},
-            respiracion: { color: "border-blue-400", items: [
-                { n: "Técnica 4-7-8", t: "5 min", d: "Relajación total" },
-                { n: "Respiración de Fuego", t: "2 min", d: "Energía pura" }
+            cardio: { color: "border-orange-500", items: [
+                { n: "Jumping Jacks", t: "3 x 1 min", d: "Coordinación y quema de grasa" },
+                { n: "Mountain Climbers", t: "3 x 45s", d: "Ejercicios de corredores (Escaladores)" },
+                { n: "Burpees", t: "3 x 10", d: "Potencia total" },
+                { n: "Skipping Alto", t: "4 x 30s", d: "Cardio explosivo" }
             ]},
-            estiramiento: { color: "border-yellow-500", items: [
-                { n: "Pectoral en pared", t: "1 min", d: "Post-entreno" },
-                { n: "Isquios sentado", t: "2 min", d: "Flexibilidad" }
-            ]},
-            relajacion: { color: "border-indigo-600", items: [
-                { n: "Meditación Zen", t: "10 min", d: "Enfoque mental" },
-                { n: "Sonido Blanco", t: "Infinito", d: "Descanso profundo" }
+            bienestar: { color: "border-purple-500", items: [
+                { n: "Saludo al Sol", t: "5 min", d: "Yoga - Movilidad" },
+                { n: "Estiramiento Isquios", t: "2 min", d: "Relajación muscular" },
+                { n: "Respiración 4-7-8", t: "5 min", d: "Control de estrés" }
             ]}
         };
 
         function recalcularNutricion() {
             const peso = parseFloat(document.getElementById('peso').value);
             const obj = document.getElementById('objetivo').value;
-            
             if (!peso) return;
-
-            document.getElementById('nutrition-panel').style.opacity = "1";
-            
-            let mCarb = obj === 'ganar' ? 4.5 : (obj === 'perder' ? 2 : 3);
-            let p = peso * 2;
-            let c = peso * mCarb;
-            let g = peso * 0.8;
-            let kcal = (p * 4) + (c * 4) + (g * 9);
-
+            let mCarb = obj === 'ganar' ? 4.5 : (obj === 'perder' ? 2 : 3.2);
+            let p = peso * 2, c = peso * mCarb, g = peso * 0.8;
             document.getElementById('p-val').innerText = Math.round(p) + "g";
             document.getElementById('c-val').innerText = Math.round(c) + "g";
             document.getElementById('g-val').innerText = Math.round(g) + "g";
-            document.getElementById('kcal-val').innerText = Math.round(kcal);
+            document.getElementById('kcal-val').innerText = Math.round((p*4)+(c*4)+(g*9));
         }
 
         function cambiarTab(key, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab'));
             btn.classList.add('active-tab');
-
             const section = database[key];
             const list = document.getElementById('content-list');
             list.innerHTML = "";
-
             section.items.forEach(item => {
                 list.innerHTML += `
                     <div class="seccion-card ${section.color} animate-fade-in">
@@ -127,30 +115,21 @@
                             <h4 class="font-bold text-white text-xs uppercase">${item.n}</h4>
                             <p class="text-[9px] text-gray-500 font-bold">${item.d}</p>
                         </div>
-                        <div class="text-emerald-500 font-black text-[10px] bg-black/40 px-3 py-2 rounded-xl border border-gray-700">
-                            ${item.t}
-                        </div>
-                    </div>
-                `;
+                        <div class="text-emerald-500 font-black text-[10px] bg-black/40 px-3 py-2 rounded-xl border border-gray-700">${item.t}</div>
+                    </div>`;
             });
         }
 
-        // Lógica de Suscripción 15 días
         window.onload = () => {
-            let inicio = localStorage.getItem('reg_date');
-            if (!inicio) {
-                inicio = new Date().getTime();
-                localStorage.setItem('reg_date', inicio);
-            }
-            let dias = Math.floor((new Date().getTime() - inicio) / (1000 * 86400));
-            let resto = 15 - dias;
-
+            let inicio = localStorage.getItem('reg_date_new');
+            if (!inicio) { inicio = new Date().getTime(); localStorage.setItem('reg_date_new', inicio); }
+            let resto = 15 - Math.floor((new Date().getTime() - inicio) / 86400000);
             if (resto <= 0) {
                 document.getElementById('paywall').classList.remove('hidden');
                 document.getElementById('app-content').classList.add('blur-lg');
             } else {
-                document.getElementById('trial-counter').innerText = `Días de prueba restantes: ${resto}`;
-                cambiarTab('entreno', document.querySelector('.tab-btn'));
+                document.getElementById('trial-counter').innerText = `Días restantes: ${resto}`;
+                cambiarTab('brazos', document.querySelector('.tab-btn'));
             }
         };
     </script>
